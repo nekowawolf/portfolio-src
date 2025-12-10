@@ -8,16 +8,19 @@ import { toggleDarkMode } from '@/utils/darkmode';
 
 export default function HeroSection() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
+
     const current = localStorage.getItem('darkmode') === 'active';
     setIsDarkMode(current);
-    
+
     const themeSwitch = document.getElementById('theme-switch');
     if (themeSwitch) {
       const handler = () => {
         const newMode = toggleDarkMode();
-        setIsDarkMode(newMode); 
+        setIsDarkMode(newMode);
       };
       themeSwitch.addEventListener('click', handler);
       return () => themeSwitch.removeEventListener('click', handler);
@@ -44,15 +47,14 @@ export default function HeroSection() {
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left mb-3">
           <div className="flex items-center gap-3">
             <h1 className="text-4xl font-extrabold text-fill-color">SELF-SUMMARY</h1>
-            
-            <button
-              id="theme-switch"
-              className=""
-            >
-              {isDarkMode ? (
-                <FaMoon id="moon-icon" className="w-8 h-8 text-fill-color" />
-              ) : (
-                <FaSun id="sun-icon" className="w-8 h-8 text-fill-color" />
+
+            <button id="theme-switch" className="">
+              {isMounted && (
+                isDarkMode ? (
+                  <FaMoon id="moon-icon" className="w-8 h-8 text-fill-color" />
+                ) : (
+                  <FaSun id="sun-icon" className="w-8 h-8 text-fill-color" />
+                )
               )}
             </button>
           </div>
