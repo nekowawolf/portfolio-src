@@ -1,16 +1,18 @@
-import type { Metadata } from "next";
-import '@/styles/globals.css'
+'use client';
 
-export const metadata: Metadata = {
-  title: "Portfolio",
-  description: "My Personal Portfolio",
-};
+import '@/styles/globals.css'
+import { useEffect } from 'react';
+import { initializeDarkMode } from '@/utils/darkmode';
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  useEffect(() => {
+    initializeDarkMode();
+  }, []);
+
   return (
     <html lang="en">
       <body className="antialiased">

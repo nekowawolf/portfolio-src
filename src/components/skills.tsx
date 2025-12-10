@@ -11,7 +11,7 @@ export function TechStack() {
   ];
 
   return (
-    <div className="w-full rounded-2xl border p-6 shadow bg-[#243049] border-[#3d4f6f] text-white">
+    <div className="w-full rounded-2xl border p-6 shadow card-color border-color text-fill-color">
       <h2 className="text-xl font-semibold mb-4">TECH STACK</h2>
       <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-thin">
         {techIcons.map((icon, index) => (
@@ -35,7 +35,7 @@ export function DesignTools() {
   ];
 
   return (
-    <div className="w-full rounded-2xl border p-6 shadow bg-[#243049] border-[#3d4f6f] text-white">
+    <div className="w-full rounded-2xl border p-6 shadow card-color border-color text-fill-color">
       <h2 className="text-xl font-semibold mb-4">DESIGN TOOLS</h2>
       <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-thin">
         {designIcons.map((icon, index) => (

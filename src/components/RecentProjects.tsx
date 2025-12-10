@@ -20,15 +20,15 @@ export default function RecentProjects() {
   ];
 
   return (
-    <div className="bg-[#243049] rounded-3xl p-6 md:p-8 border border-[#3d4f6f]">
-      <h2 className="text-xl md:text-2xl font-bold text-white mb-6">RECENT PROJECT</h2>
+    <div className="card-color rounded-3xl p-6 md:p-8 border border-color">
+      <h2 className="text-xl md:text-2xl font-bold text-fill-color mb-6">RECENT PROJECT</h2>
 
       <div className="relative">
         <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-thin">
           {projects.map((project, index) => (
             <div
               key={index}
-              className="flex-shrink-0 w-[280px] md:w-[320px] bg-[#1a1f35] rounded-2xl overflow-hidden border border-[#3d4f6f] group hover:border-blue-500 transition-all duration-300"
+              className="flex-shrink-0 w-[280px] md:w-[320px] card-color2 rounded-2xl overflow-hidden border border-color group hover:border-blue-500 transition-all duration-300"
             >
               <div
                 className="h-[160px] bg-gradient-to-br from-purple-900 via-blue-900 to-purple-800 relative"
@@ -42,8 +42,8 @@ export default function RecentProjects() {
 
               <div className="p-4 flex items-center justify-between">
                 <div>
-                  <h3 className="text-white font-bold text-lg">{project.title}</h3>
-                  <p className="text-gray-400 text-sm mt-1">{project.description}</p>
+                  <h3 className="text-fill-color font-bold text-lg">{project.title}</h3>
+                  <p className="text-fill-color/60 text-sm mt-1">{project.description}</p>
                 </div>
                 <button className="bg-blue-600 hover:bg-blue-700 transition-colors p-2 rounded-full flex-shrink-0 ml-2">
                   <FiArrowRight className="w-5 h-5 text-white" />
