@@ -1,28 +1,35 @@
-import { useEffect, useState } from 'react';
-import { toggleDarkMode, initializeDarkMode } from '@/utils/darkmode';
+'use client';
+
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { SiGmail } from "react-icons/si";
 import { FaXTwitter, FaSun, FaMoon } from "react-icons/fa6";
+import { useEffect, useState } from 'react';
+import { toggleDarkMode } from '@/utils/darkmode';
 
 export default function HeroSection() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
-    const darkModeActive = initializeDarkMode();
-    setIsDarkMode(darkModeActive);
+    const current = localStorage.getItem('darkmode') === 'active';
+    setIsDarkMode(current);
+    
+    const themeSwitch = document.getElementById('theme-switch');
+    if (themeSwitch) {
+      const handler = () => {
+        const newMode = toggleDarkMode();
+        setIsDarkMode(newMode); 
+      };
+      themeSwitch.addEventListener('click', handler);
+      return () => themeSwitch.removeEventListener('click', handler);
+    }
   }, []);
-
-  const handleThemeToggle = () => {
-    const newMode = toggleDarkMode();
-    setIsDarkMode(newMode);
-  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6 items-stretch">
 
       {/* PFP */}
       <div className="flex justify-center lg:justify-start">
-        <div className="bg-white rounded-3xl overflow-hidden w-full max-w-[220px] h-[160px] lg:max-w-full lg:h-full flex items-center justify-center">
+        <div className="bg-white rounded-3xl overflow-hidden w-full max-w-[220px] h-[160px] lg:max-w-full lg:h-full flex items-center justify-center card-color border-color">
           <img
             src="https://www.nekowawolf.xyz/img/neko.png"
             alt="Profile Picture"
@@ -31,21 +38,21 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Right Section */}
       <div className="flex flex-col justify-between">
 
         {/* Self Summary */}
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left mb-3">
           <div className="flex items-center gap-3">
             <h1 className="text-4xl font-extrabold text-fill-color">SELF-SUMMARY</h1>
+            
             <button
-              onClick={handleThemeToggle}
-              aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
+              id="theme-switch"
+              className=""
             >
               {isDarkMode ? (
-                 <FaMoon className="w-8 h-8 text-fill-color" />
+                <FaMoon id="moon-icon" className="w-8 h-8 text-fill-color" />
               ) : (
-                 <FaSun className="w-8 h-8 text-fill-color" />
+                <FaSun id="sun-icon" className="w-8 h-8 text-fill-color" />
               )}
             </button>
           </div>
