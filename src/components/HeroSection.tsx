@@ -48,7 +48,11 @@ export default function HeroSection() {
           <div className="flex items-center gap-3">
             <h1 className="text-4xl font-extrabold text-fill-color">SELF-SUMMARY</h1>
 
-            <button id="theme-switch" className="">
+            {/* Theme Switch */}
+            <button 
+              id="theme-switch" 
+              className="cursor-pointer hover:opacity-80 transition"
+            >
               {isMounted && (
                 isDarkMode ? (
                   <FaMoon id="moon-icon" className="w-8 h-8 text-fill-color" />
@@ -70,24 +74,40 @@ export default function HeroSection() {
           {/* Buttons + Social */}
           <div className="flex flex-wrap items-center gap-4">
 
-            <button className="bg-blue-600 hover:bg-blue-700 transition-colors px-4 py-2 rounded-lg text-sm font-medium text-white">
+            <button className="bg-blue-600 hover:bg-blue-700 transition-colors px-4 py-2 rounded-lg text-sm font-medium text-white cursor-pointer">
               Download CV
             </button>
 
+            {/* Social Icons */}
             <div className="flex items-center gap-3">
-              <a href="https://github.com" target="_blank" className="text-fill-color/70 hover:text-fill-color">
+              <a 
+                href="https://github.com" 
+                target="_blank" 
+                className="text-fill-color/70 hover:opacity-80 cursor-pointer transition"
+              >
                 <FaGithub className="w-5 h-5" />
               </a>
 
-              <a href="https://twitter.com" target="_blank" className="text-fill-color/70 hover:text-fill-color">
+              <a 
+                href="https://twitter.com" 
+                target="_blank" 
+                className="text-fill-color/70 hover:opacity-80 cursor-pointer transition"
+              >
                 <FaXTwitter className="w-5 h-5" />
               </a>
 
-              <a href="https://linkedin.com" target="_blank" className="text-fill-color/70 hover:text-fill-color">
+              <a 
+                href="https://linkedin.com" 
+                target="_blank" 
+                className="text-fill-color/70 hover:opacity-80 cursor-pointer transition"
+              >
                 <FaLinkedin className="w-5 h-5" />
               </a>
 
-              <a href="mailto:example@email.com" className="text-fill-color/70 hover:text-fill-color">
+              <a 
+                href="mailto:example@email.com" 
+                className="text-fill-color/70 hover:opacity-80 cursor-pointer transition"
+              >
                 <SiGmail className="w-5 h-5" />
               </a>
             </div>

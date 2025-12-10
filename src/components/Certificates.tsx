@@ -13,7 +13,7 @@ export default function Certificates() {
 
   return (
     <div className="card-color rounded-3xl p-6 md:p-8 border border-color">
-      <h2 className="text-xl md:text-2xl font-bold text-fill-color mb-6">CERTIFICATE</h2>
+      <h2 className="text-xl md:text-2xl font-bold text-fill-color mb-6">CERTIFICATES</h2>
 
       <div className="relative">
         <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-thin">
