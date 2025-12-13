@@ -1,58 +1,58 @@
-import { FiArrowRight } from "react-icons/fi";
+'use client'
+
+import { usePortfolio } from "@/hooks/usePortfolio"
+import { FiArrowRight } from "react-icons/fi"
 
 export default function RecentDesigns() {
-  const projects = [
-    {
-      title: "ナオカ・ウエノ",
-      description: "を務めた日本のアニメーションテレビシリーズです。",
-      image: "https://i.pinimg.com/736x/93/cf/b2/93cfb20e8801be4a6b747d2ea41ff6a8.jpg",
-    },
-    {
-      title: "ナオカ・ウエノ",
-      description: "を務めた日本のアニメーションテレビシリーズです。",
-      image: "https://i.pinimg.com/736x/93/cf/b2/93cfb20e8801be4a6b747d2ea41ff6a8.jpg",
-    },
-    {
-      title: "ナオカ・ウエノ",
-      description: "を務めた日本のアニメーションテレビシリーズです。",
-      image: "https://i.pinimg.com/736x/93/cf/b2/93cfb20e8801be4a6b747d2ea41ff6a8.jpg",
-    },
-  ];
+  const { data } = usePortfolio()
+  if (!data) return null
 
   return (
     <div className="card-color rounded-3xl p-6 md:p-8 border border-color">
-      <h2 className="text-xl md:text-2xl font-bold text-fill-color mb-6">RECENT DESIGNS</h2>
+      <h2 className="text-xl md:text-2xl font-bold text-fill-color mb-6">
+        RECENT DESIGNS
+      </h2>
 
       <div className="relative">
         <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-thin">
-          {projects.map((project, index) => (
+          {data.designs.map((design) => (
             <div
-              key={index}
+              key={design.id}
               className="flex-shrink-0 w-[280px] md:w-[320px] card-color2 rounded-2xl overflow-hidden border border-color group hover:border-blue-500 transition-all duration-300"
             >
               <div
-                className="h-[160px] bg-gradient-to-br from-purple-900 via-blue-900 to-purple-800 relative"
+                className="h-[160px] relative"
                 style={{
-                  backgroundImage: `url(${project.image})`,
+                  backgroundImage: `url(${design.image_url})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                 }}
-              >
-              </div>
+              />
 
               <div className="p-4 flex items-center justify-between">
                 <div>
-                  <h3 className="text-fill-color font-bold text-lg">{project.title}</h3>
-                  <p className="text-fill-color/60 text-sm mt-1">{project.description}</p>
+                  <h3 className="text-fill-color font-bold text-lg">
+                    {design.title}
+                  </h3>
+                  <p className="text-fill-color/60 text-sm mt-1">
+                    {design.description}
+                  </p>
                 </div>
-                <button className="bg-blue-600 hover:bg-blue-700 transition-colors p-2 rounded-full flex-shrink-0 ml-2">
-                  <FiArrowRight className="w-5 h-5 text-white" />
-                </button>
+
+                {design.link && (
+                  <a
+                    href={design.link}
+                    target="_blank"
+                    className="bg-blue-600 hover:bg-blue-700 transition-colors p-2 rounded-full flex-shrink-0 ml-2"
+                  >
+                    <FiArrowRight className="w-5 h-5 text-white" />
+                  </a>
+                )}
               </div>
             </div>
           ))}
         </div>
       </div>
     </div>
-  );
+  )
 }
