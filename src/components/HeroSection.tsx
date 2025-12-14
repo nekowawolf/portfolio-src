@@ -6,7 +6,7 @@ import { FaXTwitter, FaSun, FaMoon } from "react-icons/fa6";
 import { useEffect, useState } from 'react';
 import { toggleDarkMode } from '@/utils/darkmode';
 import { usePortfolio } from '@/hooks/usePortfolio';
-import HeroSkeleton from "@/components/skeletons/HeroSkeleton"
+import HeroSkeleton from "@/components/skeletons/HeroSkeleton";
 
 export default function HeroSection() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -17,23 +17,11 @@ export default function HeroSection() {
 
   useEffect(() => {
     setIsMounted(true);
-
-    const current = localStorage.getItem('darkmode') === 'active';
-    setIsDarkMode(current);
-
-    const themeSwitch = document.getElementById('theme-switch');
-    if (themeSwitch) {
-      const handler = () => {
-        const newMode = toggleDarkMode();
-        setIsDarkMode(newMode);
-      };
-      themeSwitch.addEventListener('click', handler);
-      return () => themeSwitch.removeEventListener('click', handler);
-    }
+    setIsDarkMode(localStorage.getItem('darkmode') === 'active');
   }, []);
 
   if (loading || !hero) {
-    return <HeroSkeleton />
+    return <HeroSkeleton />;
   }
 
   return (
@@ -41,7 +29,7 @@ export default function HeroSection() {
 
       {/* PFP */}
       <div className="flex justify-center lg:justify-start">
-        <div className="rounded-3xl overflow-hidden w-full max-w-[220px] h-[160px] lg:max-w-full lg:h-full flex items-center justify-center card-color border-color">
+        <div className="bg-white rounded-3xl overflow-hidden w-full max-w-[220px] h-[160px] lg:max-w-full lg:h-full flex items-center justify-center card-color border-color">
           <img
             src={hero.avatar_url || "https://www.nekowawolf.xyz/img/neko.png"}
             alt="Profile Picture"
@@ -60,7 +48,7 @@ export default function HeroSection() {
             </h1>
 
             <button
-              id="theme-switch"
+              onClick={() => setIsDarkMode(toggleDarkMode())}
               className="cursor-pointer hover:opacity-80 transition"
             >
               {isMounted && (
@@ -96,30 +84,44 @@ export default function HeroSection() {
             {/* Social Icons */}
             <div className="flex items-center gap-3">
               {hero.github && (
-                <a href={hero.github} target="_blank" className="text-fill-color/70 hover:opacity-80">
+                <a
+                  href={hero.github}
+                  target="_blank"
+                  className="text-fill-color/70 hover:opacity-80 cursor-pointer transition"
+                >
                   <FaGithub className="w-5 h-5" />
                 </a>
               )}
 
               {hero.twitter && (
-                <a href={hero.twitter} target="_blank" className="text-fill-color/70 hover:opacity-80">
+                <a
+                  href={hero.twitter}
+                  target="_blank"
+                  className="text-fill-color/70 hover:opacity-80 cursor-pointer transition"
+                >
                   <FaXTwitter className="w-5 h-5" />
                 </a>
               )}
 
               {hero.linkedin && (
-                <a href={hero.linkedin} target="_blank" className="text-fill-color/70 hover:opacity-80">
+                <a
+                  href={hero.linkedin}
+                  target="_blank"
+                  className="text-fill-color/70 hover:opacity-80 cursor-pointer transition"
+                >
                   <FaLinkedin className="w-5 h-5" />
                 </a>
               )}
 
               {hero.email && (
-                <a href={`mailto:${hero.email}`} className="text-fill-color/70 hover:opacity-80">
+                <a
+                  href={`mailto:${hero.email}`}
+                  className="text-fill-color/70 hover:opacity-80 cursor-pointer transition"
+                >
                   <SiGmail className="w-5 h-5" />
                 </a>
               )}
             </div>
-
           </div>
         </div>
       </div>
