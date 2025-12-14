@@ -22,18 +22,19 @@ export interface Project extends BaseItem {
 }
 
 export interface Experience extends BaseItem {
-  role: string
-  company: string
+  title: string
   description: string
+  subjects: string[]
   start_year: number
   end_year: number
 }
 
 export interface Education extends BaseItem {
-  degree: string
-  institution: string
+  title: string
   description: string
   subjects: string[]
+  start_year: number
+  end_year: number
 }
 
 export interface SkillItem extends BaseItem {

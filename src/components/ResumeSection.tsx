@@ -23,13 +23,22 @@ export default function ResumeSection() {
             {data.experience.map((exp) => (
               <div key={exp.id}>
                 <h3 className="text-lg font-semibold text-fill-color">
-                  {exp.role}
-                  {exp.company ? ` – ${exp.company}` : ""}
+                  {exp.title}
                 </h3>
 
-                <p className="text-fill-color/70 text-sm mt-1">
-                  {exp.description}
-                </p>
+                {exp.description && (
+                  <p className="text-fill-color/70 text-sm mt-1">
+                    {exp.description}
+                  </p>
+                )}
+
+                {exp.subjects && exp.subjects.length > 0 && (
+                  <ul className="list-disc pl-5 text-fill-color/70 text-sm mt-2 space-y-1">
+                    {exp.subjects.map((subject, idx) => (
+                      <li key={idx}>{subject}</li>
+                    ))}
+                  </ul>
+                )}
               </div>
             ))}
           </div>
@@ -38,41 +47,36 @@ export default function ResumeSection() {
 
       {/* EDUCATION */}
       <div className="card-color rounded-3xl p-6 md:p-8 border border-color h-[250px] flex flex-col">
-      <h2 className="text-xl md:text-2xl font-bold text-fill-color mb-4">
-        EDUCATION
-      </h2>
+        <h2 className="text-xl md:text-2xl font-bold text-fill-color mb-4">
+          EDUCATION
+        </h2>
 
-      <div className="overflow-y-auto pr-3 flex-grow">
-        <div className="space-y-6">
-          {data.education.map((edu) => (
-            <div key={edu.id}>
-              <h3 className="text-lg font-semibold text-fill-color">
-                {edu.degree}
-              </h3>
+        <div className="overflow-y-auto pr-3 flex-grow">
+          <div className="space-y-6">
+            {data.education.map((edu) => (
+              <div key={edu.id}>
+                <h3 className="text-lg font-semibold text-fill-color">
+                  {edu.title}
+                </h3>
 
-              <p className="text-fill-color/70 text-sm mt-1">
-                {edu.institution}
-              </p>
+                {edu.description && (
+                  <p className="text-fill-color/70 text-sm mt-1 whitespace-pre-line">
+                    {edu.description}
+                  </p>
+                )}
 
-              {edu.description && (
-                <p className="text-fill-color/70 text-sm mt-2">
-                  {edu.description}
-                </p>
-              )}
-
-              {/* SUBJECTS */}
-              {edu.subjects && edu.subjects.length > 0 && (
-                <ul className="list-disc pl-5 text-fill-color/70 text-sm mt-2 space-y-1">
-                  {edu.subjects.map((subject, idx) => (
-                    <li key={idx}>{subject}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          ))}
+                {edu.subjects && edu.subjects.length > 0 && (
+                  <ul className="list-disc pl-5 text-fill-color/70 text-sm mt-2 space-y-1">
+                    {edu.subjects.map((subject, idx) => (
+                      <li key={idx}>{subject}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
-  </div>
   )
 }
