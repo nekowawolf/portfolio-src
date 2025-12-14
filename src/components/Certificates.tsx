@@ -1,11 +1,12 @@
 'use client'
 
 import { usePortfolio } from "@/hooks/usePortfolio"
+import CertificatesSkeleton from "@/components/skeletons/CertificatesSkeleton"
 
 export default function Certificates() {
   const { data, loading } = usePortfolio()
 
-  if (loading) return null
+  if (loading) return <CertificatesSkeleton />
   if (!data || data.certificates.length === 0) return null
 
   return (

@@ -1,11 +1,12 @@
 'use client'
 
 import { usePortfolio } from "@/hooks/usePortfolio"
+import ResumeSkeleton from "@/components/skeletons/ResumeSkeleton"
 
 export default function ResumeSection() {
   const { data, loading } = usePortfolio()
 
-  if (loading) return null
+  if (loading) return <ResumeSkeleton />
   if (!data) return null
 
   return (

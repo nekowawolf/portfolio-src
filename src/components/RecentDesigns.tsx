@@ -2,10 +2,12 @@
 
 import { usePortfolio } from "@/hooks/usePortfolio"
 import { FiArrowRight } from "react-icons/fi"
+import DesignsSkeleton from "@/components/skeletons/DesignsSkeleton"
 
 export default function RecentDesigns() {
   const { data } = usePortfolio()
-  if (!data) return null
+
+  if (!data) return <DesignsSkeleton />
 
   return (
     <div className="card-color rounded-3xl p-6 md:p-8 border border-color">
