@@ -3,11 +3,11 @@ export default function ProjectsSkeleton() {
     <div className="card-color rounded-3xl p-6 md:p-8 border border-color animate-pulse">
       <div className="h-6 w-48 bg-gray-300 rounded mb-6" />
 
-      <div className="flex gap-6 overflow-x-auto">
+      <div className="flex gap-6 overflow-x-auto scrollbar-thin">
         {[1, 2, 3].map(i => (
           <div
             key={i}
-            className="w-[280px] md:w-[320px] rounded-2xl overflow-hidden border border-color"
+            className="flex-shrink-0 w-[280px] md:w-[320px] rounded-2xl overflow-hidden border border-color"
           >
             <div className="h-[160px] bg-gray-300" />
             <div className="p-4 space-y-2">
