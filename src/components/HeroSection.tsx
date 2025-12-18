@@ -29,11 +29,13 @@ export default function HeroSection() {
 
       {/* PFP */}
       <div className="flex justify-center lg:justify-start">
-        <div className="bg-white rounded-3xl overflow-hidden w-full max-w-[220px] h-[160px] lg:max-w-full lg:h-full flex items-center justify-center card-color border-color">
+        <div
+          className="
+            bg-white rounded-3xl overflow-hidden aspect-square w-[200px] md:w-[260px] lg:w-[400px] card-color border-color">
           <img
-            src={hero.avatar_url || "https://www.nekowawolf.xyz/img/neko.png"}
+            src={hero.avatar_url}
             alt="Profile Picture"
-            className="object-cover w-full h-full rounded-3xl"
+            className="w-full h-full object-cover"
           />
         </div>
       </div>
