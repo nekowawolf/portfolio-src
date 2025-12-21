@@ -1,0 +1,196 @@
+import { getPortfolio } from "@/services/portfolioService"
+import Link from "next/link"
+import { notFound } from "next/navigation"
+import { FiArrowLeft, FiExternalLink } from "react-icons/fi"
+import { FaGithub } from "react-icons/fa";
+import { ProjectDetails } from "@/types/portfolio"
+
+type Props = {
+  params: Promise<{ id: string }>
+}
+
+function getYoutubeId(url: string) {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
+  const match = url.match(regExp)
+  return (match && match[2].length === 11) ? match[2] : null
+}
+
+function getVideoType(url: string) {
+  if (getYoutubeId(url)) return "youtube"
+  if (url.includes("github.com/user-attachments/assets")) return "github"
+  if (url.endsWith(".mp4") || url.endsWith(".webm")) return "direct"
+  return "unknown"
+}
+
+export default async function ProjectPage({ params }: Props) {
+  const { id } = await params
+  const portfolio = await getPortfolio()
+  const project = portfolio.projects.find((p) => p.id === id)
+
+  if (!project) {
+    notFound()
+  }
+
+  const DetailSection = ({ title, data }: { title: string, data?: ProjectDetails }) => {
+    if (!data) return null
+    return (
+      <div className="space-y-4">
+        <h3 className="text-xl font-bold text-fill-color border-l-4 border-blue-500 pl-3">{title}</h3>
+        <div className="card-color rounded-2xl p-6 border border-color space-y-4">
+          {data.image_url && (
+            <div className="rounded-xl overflow-hidden border border-color/30">
+              <img src={data.image_url} alt={title} className="w-full h-auto object-cover" />
+            </div>
+          )}
+          <p className="text-fill-color/80 leading-relaxed whitespace-pre-line">
+            {data.description}
+          </p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <main className="body-color min-h-screen px-4 py-8 md:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto space-y-8">
+        
+        {/* Header */}
+        <div className="space-y-6">
+          <Link 
+            href="/"
+            className="inline-flex items-center gap-2 text-fill-color/60 hover:text-fill-color transition-colors"
+          >
+            <FiArrowLeft className="w-5 h-5" />
+            <span>Back to Portfolio</span>
+          </Link>
+
+          <div className="space-y-4">
+             <h1 className="text-2xl md:text-4xl font-extrabold text-fill-color">
+              {project.title}
+            </h1>
+            <p className="text-xl text-fill-color/80">
+              {project.description}
+            </p>
+            
+            {project.stack && project.stack.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {project.stack.map((tech, index) => (
+                  <span 
+                    key={index}
+                    className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-sm font-medium"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Media Carousel */}
+        {(project.screenshots?.length || project.video_url) && (
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold text-fill-color border-l-4 border-blue-500 pl-3">Preview</h2>
+            <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-thin snap-x">
+
+              {/* Screenshots */}
+              {project.screenshots?.map((shot, index) => (
+                <div 
+                  key={index}
+                  className="flex-shrink-0 w-[85vw] md:w-[600px] aspect-video rounded-xl overflow-hidden border border-color snap-center bg-black/20"
+                >
+                  <img 
+                    src={shot} 
+                    alt={`Screenshot ${index + 1}`} 
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              ))}
+
+              {/* Video */}
+              {project.video_url && (
+                <div className="flex-shrink-0 w-[85vw] md:w-[600px] aspect-video rounded-xl overflow-hidden border border-color snap-center card-color2">
+
+                  {/* YOUTUBE */}
+                  {getVideoType(project.video_url) === "youtube" && (
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src={`https://www.youtube.com/embed/${getYoutubeId(project.video_url)}`}
+                      title="Project Video"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  )}
+
+                  {/* GITHUB USER-ATTACHMENT */}
+                  {getVideoType(project.video_url) === "github" && (
+                    <video 
+                      controls
+                      className="w-full h-full object-contain bg-black"
+                    >
+                      <source src={project.video_url} />
+                    </video>
+                  )}
+
+                  {/* DIRECT VIDEO (mp4/webm/etc) */}
+                  {getVideoType(project.video_url) === "direct" && (
+                    <video 
+                      controls
+                      className="w-full h-full object-contain bg-black"
+                    >
+                      <source src={project.video_url} />
+                    </video>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Detailed Sections */}
+        <div className="space-y-12">
+          {/* Main Description Placeholder if needed, but we used project.description above. 
+              The user asked for a description below media. Let's reuse description or add a placeholder. 
+              I'll add a section for "Project Overview" if there's more text, otherwise skip.
+          */}
+          
+          <div className="grid grid-cols-1 gap-8">
+             <DetailSection title="Use Case" data={project.use_case} />
+             <DetailSection title="Activity" data={project.activity} />
+             <DetailSection title="ERD" data={project.erd} />
+             <DetailSection title="Flowchart" data={project.flowchart} />
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-wrap gap-4 pt-8 justify-center">
+          {project.link && (
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all text-sm"
+            >
+              <FiExternalLink className="w-4 h-4" />
+              Visit Project
+            </a>
+          )}
+          
+          {project.github_url && (
+            <a
+              href={project.github_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 card-color hover:bg-white/5 text-fill-color rounded-lg font-medium transition-all text-sm"
+            >
+              <FaGithub className="w-4 h-4" />
+              View Source
+            </a>
+          )}
+        </div>
+      </div>
+    </main>
+  )
+}

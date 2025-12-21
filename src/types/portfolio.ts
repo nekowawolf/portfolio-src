@@ -14,11 +14,24 @@ export interface Design extends BaseItem {
   link: string
 }
 
+export interface ProjectDetails {
+  image_url: string
+  description: string
+}
+
 export interface Project extends BaseItem {
   title: string
   description: string
   image_url: string
   link: string
+  github_url?: string
+  screenshots?: string[]
+  video_url?: string
+  use_case?: ProjectDetails
+  activity?: ProjectDetails
+  erd?: ProjectDetails
+  flowchart?: ProjectDetails
+  stack?: string[]
 }
 
 export interface Experience extends BaseItem {
