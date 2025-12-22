@@ -9,6 +9,31 @@ type Props = {
   params: Promise<{ id: string }>
 }
 
+function sanitizeUrl(u?: string) {
+  if (!u) return ""
+  return u.replace(/^`+|`+$/g, "").trim()
+}
+
+function normalizeScreenshots(input: any): string[] {
+  if (!input) return []
+  if (Array.isArray(input)) {
+    return input
+      .map((item) => {
+        if (typeof item === "string") return sanitizeUrl(item)
+        if (item && typeof item === "object" && "image_url" in item) return sanitizeUrl((item as any).image_url as string)
+        return ""
+      })
+      .filter((x) => !!x)
+  }
+  if (typeof input === "string") {
+    const s = sanitizeUrl(input)
+    if (!s) return []
+    if (s.includes(",")) return s.split(",").map((x) => sanitizeUrl(x)).filter(Boolean)
+    return [s]
+  }
+  return []
+}
+
 function getYoutubeId(url: string) {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
   const match = url.match(regExp)
@@ -31,19 +56,26 @@ export default async function ProjectPage({ params }: Props) {
     notFound()
   }
 
-  const DetailSection = ({ title, data }: { title: string, data?: ProjectDetails }) => {
-    if (!data) return null
+  const hasDetails = (data?: ProjectDetails) => {
+    if (!data) return false
+    const img = sanitizeUrl(data.image_url)
+    const desc = (data.description || "").trim()
+    return !!img || !!desc
+  }
+
+  const DetailSection = ({ title, data, anchorId }: { title: string, data?: ProjectDetails, anchorId: string }) => {
+    if (!hasDetails(data)) return null
     return (
-      <div className="space-y-4">
+      <div id={anchorId} className="space-y-4">
         <h3 className="text-xl font-bold text-fill-color border-l-4 border-blue-500 pl-3">{title}</h3>
         <div className="card-color rounded-2xl p-6 border border-color space-y-4">
-          {data.image_url && (
+          {sanitizeUrl(data?.image_url) && (
             <div className="rounded-xl overflow-hidden border border-color/30">
-              <img src={data.image_url} alt={title} className="w-full h-auto object-cover" />
+              <img src={sanitizeUrl(data?.image_url)} alt={title} className="w-full h-auto object-cover" />
             </div>
           )}
           <p className="text-fill-color/80 leading-relaxed whitespace-pre-line">
-            {data.description}
+            {(data?.description || "").trim()}
           </p>
         </div>
       </div>
@@ -77,7 +109,7 @@ export default async function ProjectPage({ params }: Props) {
                 {project.stack.map((tech, index) => (
                   <span 
                     key={index}
-                    className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-sm font-medium"
+                    className="stack-chip text-sm font-medium"
                   >
                     {tech}
                   </span>
@@ -87,14 +119,12 @@ export default async function ProjectPage({ params }: Props) {
           </div>
         </div>
 
-        {/* Media Carousel */}
-        {(project.screenshots?.length || project.video_url) && (
+        {(normalizeScreenshots(project.screenshots).length || project.video_url) && (
           <div className="space-y-4">
             <h2 className="text-xl font-bold text-fill-color border-l-4 border-blue-500 pl-3">Preview</h2>
             <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-thin snap-x">
 
-              {/* Screenshots */}
-              {project.screenshots?.map((shot, index) => (
+              {normalizeScreenshots(project.screenshots).map((shot, index) => (
                 <div 
                   key={index}
                   className="flex-shrink-0 w-[85vw] md:w-[600px] aspect-video rounded-xl overflow-hidden border border-color snap-center bg-black/20"
@@ -107,11 +137,9 @@ export default async function ProjectPage({ params }: Props) {
                 </div>
               ))}
 
-              {/* Video */}
               {project.video_url && (
                 <div className="flex-shrink-0 w-[85vw] md:w-[600px] aspect-video rounded-xl overflow-hidden border border-color snap-center card-color2">
 
-                  {/* YOUTUBE */}
                   {getVideoType(project.video_url) === "youtube" && (
                     <iframe
                       width="100%"
@@ -124,7 +152,6 @@ export default async function ProjectPage({ params }: Props) {
                     ></iframe>
                   )}
 
-                  {/* GITHUB USER-ATTACHMENT */}
                   {getVideoType(project.video_url) === "github" && (
                     <video 
                       controls
@@ -134,7 +161,6 @@ export default async function ProjectPage({ params }: Props) {
                     </video>
                   )}
 
-                  {/* DIRECT VIDEO (mp4/webm/etc) */}
                   {getVideoType(project.video_url) === "direct" && (
                     <video 
                       controls
@@ -149,20 +175,19 @@ export default async function ProjectPage({ params }: Props) {
           </div>
         )}
 
-        {/* Detailed Sections */}
-        <div className="space-y-12">
-          {/* Main Description Placeholder if needed, but we used project.description above. 
-              The user asked for a description below media. Let's reuse description or add a placeholder. 
-              I'll add a section for "Project Overview" if there's more text, otherwise skip.
-          */}
-          
+        {(
+          hasDetails(project.use_case) ||
+          hasDetails(project.activity) ||
+          hasDetails(project.erd) ||
+          hasDetails(project.flowchart)
+        ) && (
           <div className="grid grid-cols-1 gap-8">
-             <DetailSection title="Use Case" data={project.use_case} />
-             <DetailSection title="Activity" data={project.activity} />
-             <DetailSection title="ERD" data={project.erd} />
-             <DetailSection title="Flowchart" data={project.flowchart} />
+            <DetailSection title="Use Case" data={project.use_case} anchorId="use-case" />
+            <DetailSection title="Activity" data={project.activity} anchorId="activity" />
+            <DetailSection title="ERD" data={project.erd} anchorId="erd" />
+            <DetailSection title="Flowchart" data={project.flowchart} anchorId="flowchart" />
           </div>
-        </div>
+        )}
 
         {/* Action Buttons */}
         <div className="flex flex-wrap gap-4 pt-8 justify-center">
