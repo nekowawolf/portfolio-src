@@ -26,6 +26,7 @@ export interface Project extends BaseItem {
   link: string
   github_url?: string
   screenshots?: string[]
+  ss_desc?: string
   video_url?: string
   use_case?: ProjectDetails
   activity?: ProjectDetails

@@ -122,54 +122,62 @@ export default async function ProjectPage({ params }: Props) {
         {(normalizeScreenshots(project.screenshots).length || project.video_url) && (
           <div className="space-y-4">
             <h2 className="text-xl font-bold text-fill-color border-l-4 border-blue-500 pl-3">Preview</h2>
-            <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-thin snap-x">
+            <div className="card-color rounded-2xl p-6 border border-color space-y-4">
+              <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-thin snap-x">
 
-              {normalizeScreenshots(project.screenshots).map((shot, index) => (
-                <div 
-                  key={index}
-                  className="flex-shrink-0 w-[85vw] md:w-[600px] aspect-video rounded-xl overflow-hidden border border-color snap-center bg-black/20"
-                >
-                  <img 
-                    src={shot} 
-                    alt={`Screenshot ${index + 1}`} 
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-              ))}
+                {normalizeScreenshots(project.screenshots).map((shot, index) => (
+                  <div 
+                    key={index}
+                    className="flex-shrink-0 w-[85vw] md:w-[600px] aspect-video rounded-xl overflow-hidden border border-color snap-center bg-black/20"
+                  >
+                    <img 
+                      src={shot} 
+                      alt={`Screenshot ${index + 1}`} 
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                ))}
 
-              {project.video_url && (
-                <div className="flex-shrink-0 w-[85vw] md:w-[600px] aspect-video rounded-xl overflow-hidden border border-color snap-center card-color2">
+                {project.video_url && (
+                  <div className="flex-shrink-0 w-[85vw] md:w-[600px] aspect-video rounded-xl overflow-hidden border border-color snap-center card-color2">
 
-                  {getVideoType(project.video_url) === "youtube" && (
-                    <iframe
-                      width="100%"
-                      height="100%"
-                      src={`https://www.youtube.com/embed/${getYoutubeId(project.video_url)}`}
-                      title="Project Video"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    ></iframe>
-                  )}
+                    {getVideoType(project.video_url) === "youtube" && (
+                      <iframe
+                        width="100%"
+                        height="100%"
+                        src={`https://www.youtube.com/embed/${getYoutubeId(project.video_url)}`}
+                        title="Project Video"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                    )}
 
-                  {getVideoType(project.video_url) === "github" && (
-                    <video 
-                      controls
-                      className="w-full h-full object-contain bg-black"
-                    >
-                      <source src={project.video_url} />
-                    </video>
-                  )}
+                    {getVideoType(project.video_url) === "github" && (
+                      <video 
+                        controls
+                        className="w-full h-full object-contain bg-black"
+                      >
+                        <source src={project.video_url} />
+                      </video>
+                    )}
 
-                  {getVideoType(project.video_url) === "direct" && (
-                    <video 
-                      controls
-                      className="w-full h-full object-contain bg-black"
-                    >
-                      <source src={project.video_url} />
-                    </video>
-                  )}
-                </div>
+                    {getVideoType(project.video_url) === "direct" && (
+                      <video 
+                        controls
+                        className="w-full h-full object-contain bg-black"
+                      >
+                        <source src={project.video_url} />
+                      </video>
+                    )}
+                  </div>
+                )}
+              </div>
+              {project.ss_desc && (
+                <>
+                  <h3 className="text-lg font-semibold text-fill-color">Project Description</h3>
+                  <p className="text-fill-color/80 whitespace-pre-line">{project.ss_desc}</p>
+                </>
               )}
             </div>
           </div>
