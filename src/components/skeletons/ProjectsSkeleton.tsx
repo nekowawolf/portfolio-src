@@ -13,6 +13,11 @@ export default function ProjectsSkeleton() {
             <div className="p-4 space-y-2">
               <div className="h-4 w-3/4 bg-gray-300 rounded" />
               <div className="h-3 w-full bg-gray-200 rounded" />
+              <div className="mt-2 flex flex-wrap gap-2">
+                {[1, 2, 3].map(k => (
+                  <div key={k} className="h-6 w-16 bg-gray-300 rounded-full" />
+                ))}
+              </div>
             </div>
           </div>
         ))}

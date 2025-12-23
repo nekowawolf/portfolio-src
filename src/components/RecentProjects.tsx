@@ -40,6 +40,15 @@ export default function RecentProjects() {
                   <p className="text-fill-color/60 text-sm mt-1">
                     {project.description}
                   </p>
+                  {project.stack && project.stack.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {project.stack.slice(0, 4).map((tech, idx) => (
+                        <span key={idx} className="stack-chip text-[10px] font-medium">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <Link
