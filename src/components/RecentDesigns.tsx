@@ -40,6 +40,15 @@ export default function RecentDesigns() {
                   <p className="text-fill-color/60 text-sm mt-1">
                     {design.description}
                   </p>
+                  {design.tools && design.tools.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {design.tools.slice(0, 4).map((tool, idx) => (
+                        <span key={idx} className="stack-chip text-[10px] font-medium">
+                          {tool}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <Link
