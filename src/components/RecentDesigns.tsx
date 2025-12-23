@@ -3,6 +3,7 @@
 import { usePortfolio } from "@/hooks/usePortfolio"
 import { FiArrowRight } from "react-icons/fi"
 import DesignsSkeleton from "@/components/skeletons/DesignsSkeleton"
+import Link from "next/link"
 
 export default function RecentDesigns() {
   const { data } = usePortfolio()
@@ -41,15 +42,12 @@ export default function RecentDesigns() {
                   </p>
                 </div>
 
-                {design.link && (
-                  <a
-                    href={design.link}
-                    target="_blank"
-                    className="bg-blue-600 hover:bg-blue-700 transition-colors p-2 rounded-full flex-shrink-0 ml-2"
-                  >
-                    <FiArrowRight className="w-5 h-5 text-white" />
-                  </a>
-                )}
+                <Link
+                  href={`/designs/${design.id}`}
+                  className="bg-blue-600 hover:bg-blue-700 transition-colors p-2 rounded-full flex-shrink-0 ml-2"
+                >
+                  <FiArrowRight className="w-5 h-5 text-white" />
+                </Link>
               </div>
             </div>
           ))}

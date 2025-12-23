@@ -12,11 +12,23 @@ export interface Design extends BaseItem {
   description: string
   image_url: string
   link: string
+  video_url?: string
+  category?: string
+  tools?: string[]
+  screenshots?: string[]
+  ss_desc?: string
+  color_palette?: VisualAsset
+  typography?: VisualAsset
 }
 
 export interface ProjectDetails {
   image_url: string
   description: string
+}
+
+export interface VisualAsset {
+  image_url: string
+  description?: string
 }
 
 export interface Project extends BaseItem {
