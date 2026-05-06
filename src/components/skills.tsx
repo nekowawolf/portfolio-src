@@ -17,6 +17,7 @@ function TechStack({ tech }: { tech: any[] }) {
               alt={skill.name}
               width={50}
               height={50}
+              className="rounded-xl"
             />
           </div>
         ))}
@@ -38,6 +39,7 @@ function DesignTools({ design }: { design: any[] }) {
               alt={skill.name}
               width={50}
               height={50}
+              className="rounded-xl"
             />
           </div>
         ))}
