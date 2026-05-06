@@ -4,6 +4,7 @@ import { usePortfolio } from "@/hooks/usePortfolio"
 import { FiArrowRight } from "react-icons/fi"
 import ProjectsSkeleton from "@/components/skeletons/ProjectsSkeleton"
 import Link from "next/link"
+import Image from "next/image"
 
 export default function RecentProjects() {
   const { data } = usePortfolio()
@@ -23,14 +24,16 @@ export default function RecentProjects() {
               key={project.id}
               className="flex-shrink-0 w-[280px] md:w-[320px] card-color2 rounded-2xl overflow-hidden border border-color group hover:border-blue-500 transition-all duration-300"
             >
-              <div
-                className="h-[160px] relative"
-                style={{
-                  backgroundImage: `url(${project.image_url})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              />
+              <div className="h-[160px] relative">
+                <Image
+                  src={project.image_url}
+                  alt={project.title}
+                  fill
+                  className="object-cover"
+                  sizes="320px"
+                  unoptimized
+                />
+              </div>
 
               <div className="p-4 flex items-center justify-between">
                 <div>

@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { toggleDarkMode } from '@/utils/darkmode';
 import { usePortfolio } from '@/hooks/usePortfolio';
 import HeroSkeleton from "@/components/skeletons/HeroSkeleton";
+import Image from "next/image";
 
 export default function HeroSection() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -31,11 +32,14 @@ export default function HeroSection() {
       <div className="flex justify-center lg:justify-start">
         <div
           className="
-            bg-white rounded-3xl overflow-hidden aspect-square w-[200px] md:w-[260px] lg:w-[400px] card-color border-color">
-          <img
+            bg-white rounded-3xl overflow-hidden aspect-square w-[200px] md:w-[260px] lg:w-[400px] card-color border-color relative">
+          <Image
             src={hero.avatar_url}
             alt="Profile Picture"
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 200px, (max-width: 1024px) 260px, 400px"
+            unoptimized
           />
         </div>
       </div>

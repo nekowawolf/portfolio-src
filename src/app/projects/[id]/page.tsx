@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { FiArrowLeft, FiExternalLink } from "react-icons/fi"
 import { FaGithub } from "react-icons/fa";
 import { ProjectDetails } from "@/types/portfolio"
+import Image from "next/image"
 
 type Props = {
   params: Promise<{ id: string }>
@@ -71,7 +72,7 @@ export default async function ProjectPage({ params }: Props) {
         <div className="card-color rounded-2xl p-6 border border-color space-y-4">
           {sanitizeUrl(data?.image_url) && (
             <div className="rounded-xl overflow-hidden border border-color/30">
-              <img src={sanitizeUrl(data?.image_url)} alt={title} className="w-full h-auto object-cover" />
+              <Image src={sanitizeUrl(data?.image_url)} alt={title} width={800} height={600} className="w-full h-auto object-cover" unoptimized />
             </div>
           )}
           <p className="text-fill-color/80 leading-relaxed whitespace-pre-line">
@@ -128,12 +129,15 @@ export default async function ProjectPage({ params }: Props) {
                 {normalizeScreenshots(project.screenshots).map((shot, index) => (
                   <div 
                     key={index}
-                    className="flex-shrink-0 w-[85vw] md:w-[600px] aspect-video rounded-xl overflow-hidden border border-color snap-center bg-black/20"
+                    className="flex-shrink-0 w-[85vw] md:w-[600px] aspect-video rounded-xl overflow-hidden border border-color snap-center bg-black/20 relative"
                   >
-                    <img 
+                    <Image 
                       src={shot} 
                       alt={`Screenshot ${index + 1}`} 
-                      className="w-full h-full object-contain"
+                      fill
+                      className="object-contain"
+                      sizes="85vw, (min-width: 768px) 600px"
+                      unoptimized
                     />
                   </div>
                 ))}
